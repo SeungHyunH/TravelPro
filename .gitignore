@@ -1,0 +1,48 @@
+# Node.js 관련
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+.DS_Store
+
+# Java 및 Gradle 관련
+/.gradle/
+/build/
+/target/
+/out/
+/bin/
+/*.class
+
+# 환경 변수 파일
+.env
+
+# IDE 관련
+.vscode/
+.idea/
+*.iml
+
+# 운영체제 관련
+Thumbs.db
+.DS_Store
+*.swp
+
+# Docker 관련
+docker-compose.override.yml
+docker-compose.dev.yml
+docker-compose.prod.yml
+.docker/
+
+# 로그 파일
+*.log
+logs/
+*.log.*
+
+# Nginx 관련
+nginx/conf.d/
+nginx/logs/
+
+# 기타
+*.bak
+*.tmp
+*.temp
+
