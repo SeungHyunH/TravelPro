@@ -6,8 +6,8 @@ import { UserDto, UserEntity, UserResult } from '../interfaces';
 export default function Home() {
   const [user, setUser] = useState<UserEntity | null>(null);
   const [userId, setUserId] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const createUser = async () => {
     const response = await fetch('/api', {
@@ -15,12 +15,12 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email } as UserDto),
+      body: JSON.stringify({ username, password } as UserDto),
     });
 
     if (response.ok) {
       const result: UserResult = await response.json();
-      setUser(result.user);
+      setUser(result);
     } else {
       console.error('Failed to create user');
     }
@@ -30,7 +30,7 @@ export default function Home() {
     const response = await fetch(`/api/${userId}`);
     if (response.ok) {
       const result: UserResult = await response.json();
-      setUser(result.user);
+      setUser(result);
     } else {
       console.error('Failed to fetch user');
     }
@@ -41,15 +41,15 @@ export default function Home() {
       <h1>Create User</h1>
       <input
         type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={createUser}>Create User</button>
 
@@ -66,8 +66,8 @@ export default function Home() {
         <div>
           <h2>User Details</h2>
           <p>ID: {user.id}</p>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
+          <p>Username: {user.username}</p>
+          <p>Password: {user.password}</p>
         </div>
       )}
     </div>

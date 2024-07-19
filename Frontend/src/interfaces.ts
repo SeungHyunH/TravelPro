@@ -1,20 +1,18 @@
 // interfaces.ts
 
-// User Data Transfer Object (DTO)
 export interface UserDto {
-    name: string;
-    email: string;
-  }
-  
-  // User Entity
-  export interface UserEntity {
-    id: number;
-    name: string;
-    email: string;
-  }
-  
-  // API Response containing the user entity
-  export interface UserResult {
-    user: UserEntity;
-  }
-  
+  username: string;
+  password: string;
+}
+
+export interface UserEntity {
+  id: number;
+  username: string;
+  password: string;
+}
+
+export interface UserResult {
+  id: number;
+  username: string;
+  password: string;
+}
