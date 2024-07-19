@@ -1,0 +1,24 @@
+# 환경 변수 파일
+.env
+
+# 운영체제 관련
+.DS_Store
+Thumbs.db
+*.swp
+
+# Docker 관련
+docker-compose.override.yml
+docker-compose.dev.yml
+docker-compose.prod.yml
+.docker/
+
+# 로그 파일
+*.log
+logs/
+*.log.*
+
+# 기타
+*.bak
+*.tmp
+*.temp
+
