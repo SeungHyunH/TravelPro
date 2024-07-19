@@ -5,3 +5,5 @@
  - 여행계획
  - 여행후기
  - 핫플레이스 공유
+- Stack
+ - Frontend : NextJS
