@@ -21,4 +21,8 @@ logs/
 *.bak
 *.tmp
 *.temp
+# Ignore certbot account details
+certbot/conf/accounts/
 
+# Ignore environment configuration
+.env

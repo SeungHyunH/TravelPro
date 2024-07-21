@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mysql:
-    container_name: mysql_db
+    container_name: mysql
     image: mysql/mysql-server:8.0.32
     restart: unless-stopped
     environment:
@@ -19,7 +19,7 @@ services:
       - app_network
 
   backend:
-    container_name: backend_app
+    container_name: backend
     restart: on-failure
     build:
       context: ./Backend/
@@ -36,7 +36,7 @@ services:
       - app_network
 
   nextjs:
-    container_name: nextjs_app
+    container_name: nextjs
     build:
       context: ./Frontend/
       dockerfile: Dockerfile
@@ -47,16 +47,33 @@ services:
       - app_network
 
   nginx:
-    container_name: nginx_webserver
+    container_name: nginx
     build:
       context: ./nginx/
       dockerfile: Dockerfile
     restart: always
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /home/sirokuma/certificates/fullchain.pem:/etc/letsencrypt/live/sirokuma-server.site/fullchain.pem
+      - /home/sirokuma/certificates/privkey.pem:/etc/letsencrypt/live/sirokuma-server.site/privkey.pem
+      - /home/sirokuma/certificates:/etc/letsencrypt
+      - ./nginx/html:/var/www/html
     depends_on:
       - backend
       - nextjs
+    networks:
+      - app_network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /home/sirokuma/certificates:/etc/letsencrypt
+      - ./nginx/html:/var/www/html
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/html; sleep 12h; done'"
     networks:
       - app_network
 
