@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -11,18 +12,24 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, name }),
-    });
+    try {
+      const response = await axios.post("/api/user", {
+        email,
+        password,
+        name,
+      });
 
-    if (response.ok) {
-      console.log(response);
-    } else {
+      if (response.status === 200) {
+        console.log(response);
+        router.push("/auth/login");
+      } else {
+        alert("Registration failed");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("There was an error!", error);
       alert("Registration failed");
+      router.push("/");
     }
   };
 

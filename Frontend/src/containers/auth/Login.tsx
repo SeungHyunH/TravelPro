@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,17 +11,22 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await axios.post("/api/user/login", {
+        email,
+        password,
+      });
 
-    if (response.ok) {
-      console.log(response);
-    } else {
+      if (response.status === 200) {
+        // 로그인 성공시 처리
+        console.log(response.data);
+        // 홈으로 리디렉션
+        router.push("/");
+      } else {
+        alert("Login failed");
+      }
+    } catch (error) {
+      console.error("There was an error!", error);
       alert("Login failed");
     }
   };
@@ -48,14 +54,14 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       <div>
-        <a href="/api/auth/google">
-          <button>Login with Google</button>
+        <a href="/api/auth/social/google">
+          <button>Register with Google</button>
         </a>
-        <a href="/api/auth/kakao/login">
-          <button>Login with Kakao</button>
+        <a href="/api/auth/social/kakao">
+          <button>Register with Kakao</button>
         </a>
-        <a href="/api/auth/naver/login">
-          <button>Login with Naver</button>
+        <a href="/api/auth/social/naver">
+          <button>Register with Naver</button>
         </a>
       </div>
       <a href="/">홈</a>
